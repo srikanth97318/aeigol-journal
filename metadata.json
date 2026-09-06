@@ -1,0 +1,6 @@
+{
+  "name": "AegisJournal",
+  "description": "Security-hardened AI reflective journal with zero-trust architecture, tenant isolation, server-side Gemini integration, and interactive threat audit suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

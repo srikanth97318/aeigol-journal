@@ -1,0 +1,166 @@
+{
+  "entities": {
+    "UserConversation": {
+      "title": "UserConversation",
+      "description": "A user-owned journaling conversation container isolated to users/{userId}/conversations/{conversationId}",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "ownerUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 120,
+          "minLength": 1
+        },
+        "theme": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "lastMessagePreview": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "messageCount": {
+          "type": "number"
+        },
+        "isArchived": {
+          "type": "boolean"
+        }
+      },
+      "required": ["id", "title", "createdAt", "updatedAt"]
+    },
+    "JournalMessage": {
+      "title": "JournalMessage",
+      "description": "An individual private journal entry or AI reflective response",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "conversationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "ownerUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "assistant", "model"]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reflectionTags": {
+          "type": "array"
+        }
+      },
+      "required": ["id", "conversationId", "role", "createdAt"]
+    },
+    "ReflectionSummary": {
+      "title": "ReflectionSummary",
+      "description": "A synthesized reflection summary of key insights and growth themes",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "ownerUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "conversationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "summaryText": {
+          "type": "string",
+          "maxLength": 4000
+        },
+        "keyPoints": {
+          "type": "array"
+        },
+        "actionItems": {
+          "type": "array"
+        },
+        "insights": {
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "conversationId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/conversations/{conversationId}": {
+      "schema": "UserConversation",
+      "description": "User-isolated journaling conversations"
+    },
+    "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "JournalMessage",
+      "description": "Private messages within a user conversation"
+    },
+    "/users/{userId}/summaries/{summaryId}": {
+      "schema": "ReflectionSummary",
+      "description": "User-isolated reflection summaries"
+    }
+  }
+}
